@@ -1,4 +1,4 @@
-﻿# Reproducible MLOps Pipeline (DVC • CI • Docker • Airflow • API)
+﻿# Reproducible MLOps Pipeline (DVC  CI  Docker  Airflow  API)
 
 Production-minded ML project structure focused on reproducibility, automation, and deployable artifacts.
 
@@ -6,19 +6,19 @@ Production-minded ML project structure focused on reproducibility, automation, a
 - **Reproducible pipeline** with DVC (versioned data + pipeline stages)
 - **Automated checks** via GitHub Actions (tests / quality gates)
 - **Containerized runtime** with Docker for consistent execution
-- **Orchestration-ready** workflows (Airflow assets)
+- **Orchestration-ready** workflows (Airflow via Docker Compose)
 - **Inference entrypoint** (API/app scaffold)
 
 ## Repository structure
-- `.github/workflows` — CI pipelines (GitHub Actions)
-- `.dvc`, `dvc.yaml`, `dvc.lock` — DVC pipeline + tracked artifacts
-- `data` — dataset tracked via DVC (pulled, not committed directly)
-- `src` — training / pipeline code
-- `tests` — unit tests for training/pipeline components
-- `airflow` — orchestration assets
-- `api` — API/service scaffold
-- `app.py` — application entrypoint
-- `requirements.txt` — Python dependencies
+- `.github/workflows`  CI pipelines (GitHub Actions)
+- `.dvc`, `dvc.yaml`, `dvc.lock`  DVC pipeline + tracked artifacts
+- `data`  dataset tracked via DVC (pulled, not committed directly)
+- `src`  training / pipeline code
+- `tests`  unit tests for training/pipeline components
+- `airflow`  Airflow local stack (Docker Compose) + DAGs folder
+- `api`  API/service scaffold
+- `app.py`  application entrypoint
+- `requirements.txt`  Python dependencies
 
 ## Quickstart (local)
 ### 1) Setup
@@ -38,6 +38,32 @@ Production-minded ML project structure focused on reproducibility, automation, a
 
 ### 4) Run tests
 - `pytest -q`
+
+## Airflow (local, via Docker Compose)
+This repo includes an Airflow stack in `airflow/docker-compose.yaml`. Airflow will load DAGs from `airflow/dags`.
+
+### Prerequisites
+- Docker Desktop (with `docker compose` available)
+
+### Start Airflow
+From the repo root:
+- `cd airflow`
+- Initialize the Airflow DB + create the default user:
+  - `docker compose up airflow-init`
+- Start services:
+  - `docker compose up -d`
+
+Airflow UI:
+- http://localhost:8080
+- Username: `airflow`
+- Password: `airflow`
+
+Optional (Celery Flower UI):
+- `docker compose --profile flower up -d`
+- http://localhost:5555
+
+### Stop Airflow
+- `docker compose down -v`
 
 ## Docker (optional)
 - Build:

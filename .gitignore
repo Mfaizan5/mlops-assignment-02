@@ -1,5 +1,8 @@
-__pycache__/
+﻿__pycache__/
 venv/
 models/
 .dvc/cache/
 .env
+
+airflow/logs/*
+!airflow/logs/.gitignore
